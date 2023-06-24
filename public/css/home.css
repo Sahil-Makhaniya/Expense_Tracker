@@ -1,0 +1,66 @@
+:root {
+    --profile-height: 0px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #eee;
+}
+
+.my_profile_shadow {
+    box-shadow: 2px 4px 8px 0px rgb(103, 102, 102);
+    background-color: white;
+}
+
+.profile h5 {
+    color: rgb(96, 95, 95);
+}
+
+.my_recent_shadow {
+    box-shadow: 2px 4px 8px 0px rgb(103, 102, 102);
+    background-color: white;
+    height: var(--profile-height);
+
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.recent_shadow {
+    box-shadow: 1px 2px 6px 0px rgb(132, 129, 129);
+    padding: 15px;
+}
+
+.recent_shadow a {
+    font-size: 18px;
+}
+
+.for_fixing_recent {
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.my_third {
+    box-shadow: 2px 4px 8px 0px rgb(103, 102, 102);
+    border-radius: 15px;
+    height: var(--profile-height);
+    padding: 15px;
+}
+
+.footer {
+    color: black;
+    text-decoration: none;
+}
+
+.footer:hover {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.remove_up_down::-webkit-outer-spin-button,
+.remove_up_down::-webkit-inner-spin-button {
+    display: none;
+}

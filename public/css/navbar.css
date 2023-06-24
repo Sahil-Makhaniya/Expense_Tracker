@@ -1,0 +1,26 @@
+.nav_shadow {
+    box-shadow: 2px 3px 8px 0px rgb(86, 84, 84);
+    background-color: #fff;
+}
+
+.header ul li a {
+    margin-left: 30px;
+    color: black;
+}
+
+.nav_element:hover {
+    background-image: linear-gradient(#fff, #008aff, #fff);
+    cursor: pointer;
+}
+
+.active {
+    background-image: linear-gradient(#fff, #008aff, #fff);
+    cursor: pointer;
+}
+
+.logout_style:hover {
+    border: 1px solid black;
+    box-shadow: 0px 2px 4px 0px rgb(0, 0, 0) inset;
+    cursor: pointer;
+    border-radius: 5px;
+}

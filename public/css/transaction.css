@@ -1,0 +1,54 @@
+:root {
+    --height_of_both: 600px;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #eee;
+}
+
+.expense-body {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: calc(var(--height_of_both) - 80px);
+    border: 2px solid black;
+    border-radius: 15px;
+    border-left: none;
+    border-right: none;
+    background-color: white;
+}
+
+.third-body {
+    background-color: white;
+}
+
+.expenses {
+    border-radius: 15px;
+    box-shadow: 2px 4px 8px 0px rgb(103, 102, 102);
+    background-color: white;
+    height: var(--height_of_both);
+}
+
+.recent_shadow {
+    box-shadow: 1px 2px 6px 0px rgb(132, 129, 129);
+    padding: 15px;
+}
+
+.recent_shadow a {
+    font-size: 18px;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.remove_up_down::-webkit-outer-spin-button,
+.remove_up_down::-webkit-inner-spin-button {
+    display: none;
+}
+
+.nanu-motu:active,
+.nanu-motu:hover {
+    transform: scale(1.07);
+}
