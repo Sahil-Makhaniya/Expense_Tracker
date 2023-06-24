@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Category</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/billboard.js/dist/billboard.min.css" />
+    <link rel="stylesheet" href="static/css/navbar.css">
+    <style>
+        .submit_form {
+            border-radius: 15px;
+            box-shadow: 2px 4px 8px 0px rgb(103, 102, 102);
+            background-color: white;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    {{> navbar }}
+
+    <div class="container-fluid row row my-4 justify-content-center">
+        <div class="col-md-8 my-4 submit_form py-4 ms-4 mb-4 map" id="submitform">
+            <h1 class="mt-2">Contact Us</h1>
+            <hr>
+            <form class="row g-3" id="contact_us_page_form">
+                <div class="col-md-6">
+                    <label for="firstname_contact_us" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstname_contact_us"
+                        onkeyup="validate_Others('firstname_contact_us')">
+                    <span for="firstname_contact_us" id="firstname_contact_us_error"></span>
+                </div>
+                <div class="col-md-6">
+                    <label for="lastname_contact_us" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastname_contact_us"
+                        onkeyup="validate_Others('lastname_contact_us')">
+                    <span for="lastname_contact_us" id="lastname_contact_us_error"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="email_contact_us" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email_contact_us" onkeyup="validate_Email()">
+                    <span for="email_contact_us" id="email_contact_us_error"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="msg_contact_us" class="form-label">Message</label>
+                    <textarea class="form-control" id="msg_contact_us" rows="3"
+                        onkeyup="validate_Others('msg_contact_us')"></textarea>
+                    <span for="msg_contact_us" id="msg_contact_us_error"></span>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="SubmitQuery()">Submit</button>
+                </div>
+            </form>
+        </div>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.8662864018934!2d72.53353997527144!3d23.10199017911821!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e8377995a210f%3A0x56a57d45271b85f9!2sStanza%20Living%20Portland%20House!5e0!3m2!1sen!2sin!4v1686988230986!5m2!1sen!2sin"
+            width="900" height="600"
+            style="border-radius: 15px; box-shadow: 2px 4px 8px 0px rgb(103, 102, 102); background-color: white; margin-left: 22px; padding: 15px;"
+            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <script>
+        const formElementHeight = document.getElementById('submitform').offsetHeight;
+        document.documentElement.style.setProperty('--form-height', `${formElementHeight}px`);
+        const formElementWidth = document.getElementById('submitform').offsetWidth;
+        document.documentElement.style.setProperty('--form-width', `${formElementWidth}px`);
+
+        function validate_Others(formElementId) {
+            let eleError = document.getElementById(`${formElementId}_error`);
+            let ele = document.getElementById(`${formElementId}`).value;
+            if (ele.length == 0) {
+                eleError.style.color = "red";
+                eleError.innerHTML = "Required";
+                return false;
+            } else {
+                eleError.innerHTML = "";
+                return true;
+            }
+        }
+
+        function validate_Email() {
+            let emailError = document.getElementById("email_contact_us_error");
+            let email = document.getElementById("email_contact_us").value;
+            if (email.length == 0) {
+                emailError.style.color = "red";
+                emailError.innerHTML = "Email Required";
+                return false;
+            }
+            else if (!email.match(/^[a-z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/)) {
+                emailError.style.color = "red";
+                emailError.innerHTML = "Email Invalid";
+                return false;
+            }
+            else {
+                emailError.innerHTML = "";
+                return true;
+            }
+        }
+
+        function SubmitQuery() {
+            if (validate_Others('firstname_contact_us') && validate_Others('lastname_contact_us') && validate_Email() && validate_Others('msg_contact_us')) {
+                let for_return = false;
+                x = {
+                    F_NAME: document.getElementById("firstname_contact_us").value,
+                    L_NAME: document.getElementById("lastname_contact_us").value,
+                    EMAIL: document.getElementById("email_contact_us").value,
+                    MESSAGE: document.getElementById("msg_contact_us").value
+                };
+                fetch("/contact_us", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify(x)
+                }).then(response => response.json())
+                    .then(data => {
+                        if (data.contact_success) {
+                            for_return = true;
+                            alert("Message sent!");
+                            document.getElementById("firstname_contact_us").value = "";
+                            document.getElementById("lastname_contact_us").value = "";
+                            document.getElementById("email_contact_us").value = "";
+                            document.getElementById("msg_contact_us").value = "";
+                        } else {
+                            alert("Message not sent!");
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                return for_return;
+            } else {
+                return false;
+            }
+        }
+    </script>
+    <script src="static/js/navbar.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"
+        integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous">
+        </script>
+</body>
+
+</html>
