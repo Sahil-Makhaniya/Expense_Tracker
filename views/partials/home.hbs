@@ -1,0 +1,211 @@
+<div class="container-fluid row mt-5 justify-content-center">
+
+    <div class="col-md-3 mb-5 ms-4" id="user_profile">
+        <div class="card my_profile_shadow" style="border-radius: 15px;">
+            <div class="card-body text-center">
+                <div class="mt-3 mb-4">
+                    <img src="static/img/profile_avatar.png" class="rounded-circle img-fluid" style="width: 100px;" />
+                </div>
+                <h4 class="mb-2">{{profile.name}}</h4>
+            </div>
+            <hr>
+            <div class="card-body profile">
+                <h5>Personals</h5>
+                <div class="fs-5 mb-3">
+                    <i class="bi bi-envelope-fill  me-2"></i>
+                    <a style="color:#b8b6b6">{{profile.email}}</a><br>
+                    <i class="bi bi-telephone-fill  me-2"></i>
+                    {{!-- <a style="color:#b8b6b6">+91 6351608173</a> --}}
+                    {{#if profile.number}}
+                    <a style="color:#b8b6b6">{{profile.number}}</a>
+                    {{else}}
+                    <a style="color:#b8b6b6">NA</a>
+                    {{/if}}
+                </div>
+            </div>
+            <hr>
+            <div class="card-body profile">
+                <h5>Status</h5>
+                <div class="fs-5 mb-3">
+                    <i class="bi bi-wallet-fill me-2"></i>
+                    <a style="color:#b8b6b6" id="wallet">{{profile.wallet}}</a><br>
+                    <i class="bi bi-currency-rupee  me-2"></i>
+                    <a style="color:#b8b6b6" id="income">{{profile.income}}</a><br>
+                    <i class="bi bi-bank2  me-2"></i>
+                    <a style="color:#b8b6b6" id="expense">{{profile.expense}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 mb-5 ms-4">
+        <div class="card my_recent_shadow text-center" style="border-radius: 15px; font-family: poppins;"><br>
+            <h3>Recents</h3>
+
+            <div class="for_fixing_recent">
+
+                {{#if trans.empty}}
+                <div class="card mx-2 my-3 recent_shadow"
+                    style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                    <div class="row text-center mx-2">
+                        <div class="text-center">
+                            <a><b>Description:</b></a>
+                            <a>This is to describe your transaction.</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a><b>Catagory:</b></a>
+                            <a>Your transaction category</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Date:</b></a>
+                            <a style="color: #a2a396;">dd-mm-yyyy</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Amount:</b></a>
+                            <a style="color: red;">-9999</a>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#each trans}}
+                <div class="card mx-2 my-3 recent_shadow"
+                    style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                    <div class="row text-center mx-2">
+                        <div class="text-center">
+                            <a><b>Description:</b></a>
+                            <a>{{this.description}}</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a><b>Catagory:</b></a>
+                            <a>{{this.category}}</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Date:</b></a>
+                            <a>{{this.date}}</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Amount:</b></a>
+                            {{#if (eq this.type "Received")}}
+                            <a style="color: rgb(3, 188, 3);">+{{this.amount}}</a>
+                            {{else if (eq this.type "Paid")}}
+                            <a style="color: red;">{{this.amount}}</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 ms-4">
+        <div class="card my_third text-center" style="border-radius: 15px; font-family: poppins;"><br>
+            <h3>Add New Transaction</h3>
+            <hr>
+            <div class="container-fluid mt-4">
+                <form id="add_transaction_form">
+
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">Description</span>
+                        <input type="text" class="form-control" id="form_description" aria-label="description"
+                            aria-describedby="description" onkeyup="validate_description()">
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <label for="CatagoryDataList" class="input-group-text">Catagory</label>
+                        <select class="form-control" id="CatagoryDataList" onchange="validate_category()"
+                            placeholder="Select Catagory...">
+                            <option disabled selected hidden>Select Catagory...</option>
+                            {{#each category}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <label for="form_Date" class="input-group-text">Date</label>
+                        <input type="date" name="date" id="form_Date" class="form-control" onchange="validate_date()">
+                    </div>
+
+                    <div class="input-group input-group-sm mb-4 justify-content-center">
+                        <span class="input-group-text">Amount</span>
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" id="trans_type_Received" value="Received"
+                                name="type_of_trans" aria-label="Radio button for following text input">
+                            <span class="ms-2">Received</span>
+                        </div>
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" id="trans_type_Paid" value="Paid"
+                                name="type_of_trans" aria-label="Radio button for following text input" checked>
+                            <span class="ms-2">Paid</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" class="form-control remove_up_down" id="form_Amount"
+                            aria-label="Amount (to the nearest Ruppe)" onkeyup="validate_amount()">
+                        <span class="input-group-text">.00</span>
+                    </div>
+
+                    <hr>
+
+                    <div class="input-group mb-3 justify-content-center">
+                        <button type="button" class="btn btn-primary" id="form_add_trans"
+                            onclick="add_transaction()">ADD</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<div class="row">
+    <div class="col-md-12 text-bg-secondary text-center" style="align-items: center;"><br>
+        <h1>About Us Page</h1>
+        <p>Our Team here to manage youe daily as well as your monthly expenses.</p>
+        <p>We provide privacy to protect your personal data as well as your daily expense record</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 text-bg-warning text-center" style="align-items: center;"><br>
+        <b style="font-size: large;">Inquiry</b>
+        <p>In Case,<br>If You have any query kindly,<br>just contact Us</p>
+        <button class="btn btn-danger">Contact Us</button>
+    </div>
+    <div class="col-md-4 text-bg-warning text-center" style="align-items: center;"><br>
+        <b style="font-size: large;">Developers</b><br>
+        <i class="bi bi-geo-alt-fill"></i>
+        <a style="color: #6a6b69; cursor: not-allowed;">Ahmedabad, Gujarat</a><br>
+        <i class="bi bi-envelope-fill"></i>
+        <a style="color: #6a6b69; cursor: not-allowed;">mayurvadhadiya5@gmail.com</a><br>
+        <i class="bi bi-telephone-fill"></i>
+        <a style="color: #6a6b69; cursor: not-allowed;">+91 6354464807</a>
+    </div>
+    <div class="col-md-4 text-bg-warning text-center pb-4" style="align-items: center;"><br>
+        <b style="font-size: large;">Stay Connected</b><br>
+        <i class="bi bi-instagram"></i>
+        <a class="footer">Instagram</a><br>
+        <i class="bi bi-facebook"></i>
+        <a class="footer">Facebook</a><br>
+        <i class="bi bi-linkedin"></i>
+        <a class="footer">linkedin</a><br>
+        <i class="bi bi-twitter"></i>
+        <a class="footer">twitter</a><br>
+        <i class="bi bi-github"></i>
+        <a class="footer">Github</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 py-4 text-bg-dark text-center" style="align-items: center;">
+        <small>© 2023 | ALL Rights Reserved for Expense Tracker</small>
+    </div>
+</div>

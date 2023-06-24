@@ -1,0 +1,129 @@
+<div class="container-fluid mt-5 row my-4 justify-content-center">
+
+    <div class="col-md-2 catagory text-center py-4 ms-4 mb-4">
+
+        <div class="category-body" id="category_body">
+
+            {{#each category}}
+            <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="{{this}}_btn" class="btn btn-outline-secondary category_btn" onclick="load_trans_of_category('{{this}}')">
+                    {{this}}
+                </button>
+                <button class="bi bi-x-lg input-group-text bla_bla" id="remove_{{this}}_btn" onclick="delete_category('{{this}}')"></button>
+            </div>
+            {{/each}}
+
+            {{#if category.empty}}
+            <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="b1st" class="btn btn-outline-secondary">
+                    Daily Expense
+                </button>
+                <i class="bi bi-x-lg input-group-text bla_bla"></i>
+            </div>
+            {{/if}}
+
+            {{!-- <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="b1st" class="btn btn-outline-secondary">
+                    Daily Expense
+                </button>
+                <i class="bi bi-x-lg input-group-text bla_bla"></i>
+            </div>
+            <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="b1st" class="btn btn-outline-secondary">
+                    Daily Expense
+                </button>
+                <i class="bi bi-x-lg input-group-text bla_bla"></i>
+            </div>
+            <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="b1st" class="btn btn-outline-secondary">
+                    Daily Expense
+                </button>
+                <i class="bi bi-x-lg input-group-text bla_bla"></i>
+            </div>
+            <div class="input-group justify-content-center mx-2 my-2 category_translate">
+                <button type="button" id="b1st" class="btn btn-outline-secondary">
+                    Daily Expense
+                </button>
+                <i class="bi bi-x-lg input-group-text bla_bla"></i>
+            </div> --}}
+
+        </div>
+        <div class="input-group mb-3 mt-3">
+            <input type="text" class="form-control" id="add_catagory_input" placeholder="Add Catagory"
+                aria-label="Add Catagory" aria-describedby="add_catagory">
+            <button class="btn btn-success" type="button" id="add_catagory_btn">Add</button>
+        </div>
+    </div>
+
+    <div class="col-md-9 expenses text-center ms-4">
+        <div class="for_Scroll_category_trans py-4" style="height: 565px;">
+            <div class="expense-body" id="trans_category_body">
+
+                {{#if trans.empty}}
+                <div class="card mx-2 my-3 recent_shadow"
+                    style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                    <div class="row text-center mx-2">
+                        <div class="text-center">
+                            <a><b>Description:</b></a>
+                            <a>This is to describe your transaction.</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a><b>Catagory:</b></a>
+                            <a>Your transaction category</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Date:</b></a>
+                            <a style="color: #a2a396;">dd-mm-yyyy</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Amount:</b></a>
+                            <a style="color: red;">-9999</a>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#each trans}}
+                <div class="card mx-2 my-3 recent_shadow"
+                    style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                    <div class="row text-center mx-2">
+                        <div class="text-center">
+                            <a><b>Description:</b></a>
+                            <a>{{this.description}}</a>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-auto">
+                            <a><b>Catagory:</b></a>
+                            <a>{{this.category}}</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Date:</b></a>
+                            <a style="color: #a2a396">{{this.date}}</a>
+                        </div>
+                        <div class="col-auto">
+                            <a><b>Amount:</b></a>
+                            {{#if (eq this.type "Received")}}
+                            <a style="color: rgb(3, 188, 3);">+{{this.amount}}</a>
+                            {{else if (eq this.type "Paid")}}
+                            <a style="color: red;">{{this.amount}}</a>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+
+                {{/each}}
+            </div>
+            <div>
+                <div class="my-3">
+                    <div class="input-group justify-content-end">
+                        <span class="input-group-text" id="basic-addon3" style="font-weight: 500;">Total amount: ₹ 
+                            <span id="total_in_category">{{total}}</span></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

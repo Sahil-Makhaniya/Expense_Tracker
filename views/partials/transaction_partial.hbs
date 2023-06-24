@@ -1,0 +1,209 @@
+<div class="container-fluid row text-center mt-5 justify-content-center">
+
+    <div class="col-md-3 mx-2 mb-4">
+        <div class="card my_third text-center third-body"
+            style="border-radius: 15px; font-family: poppins; height: 565px; box-shadow: 1px 2px 6px 0px rgb(132, 129, 129);">
+            <br>
+            <div class="btn-group mx-3" role="group" aria-label="Basic outlined example">
+                <button id="select_add_trans" type="button" class="btn btn-secondary" style="width: 50%;">Add
+                    Transaction</button>
+                <button id="select_sort_by" type="button" class="btn btn-outline-secondary" style="width: 50%;">Filter
+                </button>
+            </div>
+
+            <div class="container-fluid mt-4" id="Add_New_Transaction_div">
+                <h3>Add New Transaction</h3>
+                <hr>
+                <form id="add_transaction_form">
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">Description</span>
+                        <input type="text" class="form-control" id="form_description" aria-label="description"
+                            aria-describedby="description" onkeyup="validate_description()" />
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <label for="CatagoryDataList" class="input-group-text">Catagory</label>
+                        <select class="form-control" id="CatagoryDataList" onchange="validate_category()"
+                            placeholder="Select Catagory...">
+                            <option disabled selected hidden>Select Catagory...</option>
+                            {{#each category}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <label for="form_Date" class="input-group-text">Date</label>
+                        <input type="date" name="date" id="form_Date" class="form-control" onchange="validate_date()" />
+                    </div>
+
+                    <div class="input-group input-group-md mb-4 justify-content-center">
+                        <span class="input-group-text">Amount</span>
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" id="trans_type_Received" value="Received"
+                                name="type_of_trans" aria-label="Radio button for following text input" />
+                            <span class="ms-2">Received</span>
+                        </div>
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="radio" id="trans_type_Paid" value="Paid"
+                                name="type_of_trans" aria-label="Radio button for following text input" checked />
+                            <span class="ms-2">Paid</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group mb-4">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" class="form-control remove_up_down" id="form_Amount"
+                            aria-label="Amount (to the nearest Ruppe)" onkeyup="validate_amount()" />
+                        <span class="input-group-text">.00</span>
+                    </div>
+
+                    <hr />
+
+                    <div class="input-group mb-3 justify-content-center">
+                        <button type="button" class="btn btn-primary" id="form_add_trans" onclick="add_transaction()">
+                            ADD
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container-fluid mt-4" id="Sort_By_div" hidden>
+                <h3>Filter By</h3>
+                <hr />
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label for="yearFilter">Year</label>
+                        <select id="yearFilter" class="form-control">
+                            <option value="All" selected>All</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                            <option value="2030">2030</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 pt-3">
+                        <label for="monthFilter">Month</label>
+                        <select id="monthFilter" class="form-control">
+                            <option value="All" selected>All</option>
+                            <option value="1">January</option>
+                            <option value="2">Feburary</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 pt-3">
+                        <label for="categoryFilter">Category</label>
+                        <select id="categoryFilter" class="form-control">
+                            <option value="All" selected>All</option>
+                            {{#each category}}
+                            <option value="{{this}}">{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12 pt-3">
+                        <label for="amtTypeFilter">Amount</label>
+                        <select id="amtTypeFilter" class="form-control">
+                            <option value="All" selected>All</option>
+                            <option value="Received">Received</option>
+                            <option value="Paid">Paid</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="input-group mb-3 justify-content-center pt-2">
+                    <button type="button" class="btn btn-primary" id="form_filter" onclick="filterTransaction()">
+                        Filter
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="for_Scroll_category_trans ms-4 mb-4 me-2 py-4 col-md-8 expenses" style="height: 565px;">
+        <div class="expense-body" id="transaction_list_body">
+
+            {{#if trans.empty}}
+            <div class="card mx-2 my-3 recent_shadow"
+                style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                <div class="row text-center mx-2">
+                    <div class="text-center">
+                        <a><b>Description:</b></a>
+                        <a>You haven't added any transactions yet.</a>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <a><b>Catagory:</b></a>
+                        <a>Your transaction category</a>
+                    </div>
+                    <div class="col-auto">
+                        <a><b>Date:</b></a>
+                        <a style="color: #a2a396;">yyyy-mm-dd</a>
+                    </div>
+                    <div class="col-auto">
+                        <a><b>Amount:</b></a>
+                        <a style="color: red;">-9999</a>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+
+            {{#each trans}}
+            <div class="card mx-2 my-3 recent_shadow"
+                style="background-image: linear-gradient(to right,#dad8d8,white,#dad8d8);">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row text-center mx-2">
+                            <div class="text-center">
+                                <a><b>Description:</b></a>
+                                <a>{{this.description}}</a>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-auto">
+                                <a><b>Catagory:</b></a>
+                                <a>{{this.category}}</a>
+                            </div>
+                            <div class="col-auto">
+                                <a><b>Date:</b></a>
+                                <a style="color: #a2a396">{{this.date}}</a>
+                            </div>
+                            <div class="col-auto">
+                                <a><b>Amount:</b></a>
+                                {{#if (eq this.type "Received")}}
+                                <a style="color: rgb(3, 188, 3);">+{{this.amount}}</a>
+                                {{else if (eq this.type "Paid")}}
+                                <a style="color: red;">{{this.amount}}</a>
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <button id="{{this._id}}" class="bi bi-trash3-fill btn btn-danger nanu-motu"
+                            onclick="Delete_Transaction('{{this._id}}')">Delete</button>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+
+
+</div>
