@@ -148,7 +148,4 @@ function add_transaction(){
     }
 }
 
-document.getElementById("home-contact").addEventListener("click", () => {
-    action = "/contact_us";
-});
 
