@@ -147,5 +147,11 @@ function add_transaction(){
         return false;
     }
 }
-
+document.getElementById("home-contact").addEventListener("click", () => {
+    localStorage.removeItem('reload');
+    action = "/contact_us";
+    localStorage.setItem('nav_active', "contact_us");
+    document.getElementById("navbar_from").action = action;
+    document.getElementById("navbar_from").submit();
+});
 
